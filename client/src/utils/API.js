@@ -8,9 +8,12 @@ export default {
     return axios.post("/api/saveCoins/", data);
   },
   getWatched: function (uid){
-    return axios.get("/api/saveCoins/" + uid)
+    return axios.get("/api/saveCoins/" + uid);
   },
   deleteWatch: function (uid){
-    return axios.delete("/api/saveCoins/delete/" + uid)
+    return axios.delete("/api/saveCoins/delete/" + uid);
+  },
+  getNews: function(crypto) {
+    return axios.get(`/api/news/${crypto}`);
   }
 };

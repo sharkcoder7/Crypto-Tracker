@@ -3,21 +3,11 @@ const router = require("express").Router();
 const db = require("../models");
 const axios = require("axios");
 const cheerio = require("cheerio");
+const api_key = "5ae60d2d5dcf4b75a51d27c9f94f5c35";
 
 router.get("/", function(req, res) {
   res.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
-
-// router.post("/api/saveCoins", function(req, res) {
-//   User.update(
-//     { _id: req.session.user._id },
-//     {
-//       $push: {
-//         coins: { coinName: req.body.coinName, coinPrice: req.body.coinPrice }
-//       }
-//     }
-//   );
-// });
 
 const cryptoFunctions = {
   delete: function(req, res) {
@@ -42,6 +32,14 @@ router.get("/api/saveCoins/:uid", function(req, res) {
 });
 
 router.delete("/api/saveCoins/delete/:uid", cryptoFunctions.delete);
+
+router.get("/api/news/:crypto", function(req, res) {
+  axios.get(`https://newsapi.org/v2/everything?q=${req.params.crypto}&sortBy=publishedAt&apiKey=5ae60d2d5dcf4b75a51d27c9f94f5c35`).then(res => {
+    res.data.articles.forEach(articles => {
+      res.json(articles);
+    });
+  });
+});
 
 router.get("/api/coins", function(req, res) {
   var results = [];
