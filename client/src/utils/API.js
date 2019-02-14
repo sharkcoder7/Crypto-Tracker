@@ -13,7 +13,7 @@ export default {
   deleteWatch: function (uid){
     return axios.delete("/api/saveCoins/delete/" + uid);
   },
-  getNews: function(crypto) {
-    return axios.get(`/api/news/${crypto}`);
+  getNews: function() {
+    return axios.get("/api/news");
   }
 };

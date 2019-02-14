@@ -41,7 +41,8 @@ export default class App extends Component {
   state = {
     authed: false,
     loading: true,
-    loadCryptos: []
+    loadCryptos: [],
+    news: []
   };
   componentDidMount() {
     this.removeListener = firebaseAuth().onAuthStateChanged(user => {
@@ -58,6 +59,7 @@ export default class App extends Component {
       }
     });
     API.loadCryptos().then(res => this.setState({ loadCryptos: res.data }));
+    API.getNews().then(res => this.setState({ news: res.data }));
   }
   componentWillUnmount() {
     this.removeListener();
@@ -168,7 +170,6 @@ export default class App extends Component {
                 </thead>
                 <tbody>
                   {this.state.loadCryptos.map(coin => (
-                    // <div className="row" key={coin.name}>
                     <tr>
                       <td onClick={() => this.callChart(coin.abv)}>
                         {coin.name}
@@ -176,7 +177,6 @@ export default class App extends Component {
                       <td>{coin.price}</td>
                       <td>{coin.percent}</td>
                     </tr>
-                    // </div>
                   ))}
                 </tbody>
               </table>
@@ -199,7 +199,12 @@ export default class App extends Component {
                   component={Dashboard}
                 />
               </Switch>
-              <div>NEWSFEED</div>
+              <div>
+                {/* news */}
+                {this.state.news.map(articles => (
+                  <div>{console.log(articles)}</div>
+                ))}
+              </div>
             </div>
           </div>
           <footer className="page-footer teal">

@@ -33,12 +33,10 @@ router.get("/api/saveCoins/:uid", function(req, res) {
 
 router.delete("/api/saveCoins/delete/:uid", cryptoFunctions.delete);
 
-router.get("/api/news/:crypto", function(req, res) {
-  axios.get(`https://newsapi.org/v2/everything?q=${req.params.crypto}&sortBy=publishedAt&apiKey=5ae60d2d5dcf4b75a51d27c9f94f5c35`).then(res => {
-    res.data.articles.forEach(articles => {
-      res.json(articles);
-    });
-  });
+router.get("/api/news", function(req, res) {
+  axios.get(`https://newsapi.org/v2/everything?q=cryptocurrency&sortBy=publishedAt&apiKey=5ae60d2d5dcf4b75a51d27c9f94f5c35`).then(data => {
+    res.json(data.data.articles)
+  })
 });
 
 router.get("/api/coins", function(req, res) {
