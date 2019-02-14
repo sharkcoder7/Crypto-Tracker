@@ -235,20 +235,33 @@ export default class App extends Component {
                 />
               </Switch>
               <div>
-                {this.state.news.map(article => (
-                  <ul key={article.url} className="collection with-header">
-                    <br />
-                    {/* <div>{console.log(article)}</div> */}
-                    <li className="collection-header">
-                      <h4>{article.title}</h4>
+                <ul className="collection with-header">
+                <h4 className="collection-header">News</h4>
+                  {this.state.news.map(article => (
+                    <li key={article.url} className="row">
+                      <h6 className="col m12 center">
+                        <a href={article.url} target="blank">
+                          {article.title}
+                        </a>
+                      </h6>
+                      <div className="row">
+                      {article.urlToImage
+                      ?<div><img
+                      className="col m6"
+                      src={article.urlToImage}
+                      width={150}
+                      height={150}
+                      mode="fit"
+                    />
+                    <p className="col m6">{article.description}</p></div>
+                    :<div><p className="col m1"></p><p className="col m10 center">{article.description}</p></div>
+                    }
+
+                      
+                      </div>
                     </li>
-                    <li className="collection-item">
-                      <a href={article.url} target="blank">
-                        {article.url}
-                      </a>
-                    </li>
-                  </ul>
-                ))}
+                  ))}
+                </ul>
               </div>
             </div>
           </div>
