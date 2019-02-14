@@ -44,7 +44,7 @@ export default class App extends Component {
     loading: true,
     loadCryptos: [],
     news: [],
-    location: window.location.href
+    headline: ""
   };
 
   componentDidMount() {
@@ -62,7 +62,9 @@ export default class App extends Component {
       }
     });
     API.loadCryptos().then(res => this.setState({ loadCryptos: res.data }));
-    API.getNews("Cryptocurrencies").then(res => this.setState({ news: res.data }));
+    API.getNews("Cryptocurrencies").then(res =>
+      this.setState({ news: res.data })
+    );
   }
   componentWillUnmount() {
     this.removeListener();
@@ -70,6 +72,14 @@ export default class App extends Component {
       window.location.href = "/dashboard";
     }
   }
+
+  handleInputChange = event => {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value
+    });
+  };
+
   callChart = (coinName, market) => {
     console.log("coinName");
     new window.TradingView.widget({
@@ -90,8 +100,14 @@ export default class App extends Component {
     var linkText = document.createTextNode("Dashboard");
     a.appendChild(linkText);
     a.title = "Go Back";
-    a.href = "/";
+    a.href = "/dashboard";
     document.body.appendChild(a);
+  };
+
+  callNews = () => {
+    API.getNews(this.state.headline).then(res =>
+      this.setState({ news: res.data })
+    );
   };
 
   render() {
@@ -158,28 +174,32 @@ export default class App extends Component {
                       <td>{coin.percent}</td>
                       <td>
                         <div className="market chip">
-                          <a className="market"
+                          <a
+                            className="market"
                             onClick={() => this.callChart(coin.abv, "Bitstamp")}
                           >
                             Bitstamp
                           </a>
                         </div>
                         <div className="chip">
-                          <a className="market"
+                          <a
+                            className="market"
                             onClick={() => this.callChart(coin.abv, "Binance")}
                           >
                             Binance
                           </a>
                         </div>
                         <div className="chip">
-                          <a  className="market"
+                          <a
+                            className="market"
                             onClick={() => this.callChart(coin.abv, "Bittrex")}
                           >
                             Bittrex
                           </a>
                         </div>
                         <div className="chip">
-                          <a  className="market"
+                          <a
+                            className="market"
                             onClick={() => this.callChart(coin.abv, "Bitfinex")}
                           >
                             Bitfinex
@@ -211,7 +231,28 @@ export default class App extends Component {
               </Switch>
               <div>
                 <ul className="collection with-header">
-                <h4 className="collection-header">News</h4>
+                  <div className="collection-header">
+                    <div className="row">
+                      <div className="col m3">
+                        <h4>News</h4>
+                      </div>
+                      <div className="col m6">
+                        <input
+                          value={this.state.headline}
+                          onChange={this.handleInputChange}
+                          name="headline"
+                        />
+                      </div>
+                      <div className="col m3">
+                        <a
+                          onClick={() => this.callNews()}
+                          className="wave-effect wave-light btn"
+                        >
+                          search
+                        </a>
+                      </div>
+                    </div>
+                  </div>
                   {this.state.news.map(article => (
                     <li key={article.url} className="row">
                       <h6 className="col m12 center">
@@ -220,19 +261,25 @@ export default class App extends Component {
                         </a>
                       </h6>
                       <div className="row">
-                      {article.urlToImage
-                      ?<div><img
-                      className="col m6"
-                      src={article.urlToImage}
-                      width={150}
-                      height={150}
-                      mode="fit"
-                    />
-                    <p className="col m6">{article.description}</p></div>
-                    :<div><p className="col m1"></p><p className="col m10 center">{article.description}</p></div>
-                    }
-
-                      
+                        {article.urlToImage ? (
+                          <div>
+                            <img
+                              className="col m6"
+                              src={article.urlToImage}
+                              width={150}
+                              height={150}
+                              mode="fit"
+                            />
+                            <p className="col m6">{article.description}</p>
+                          </div>
+                        ) : (
+                          <div>
+                            <p className="col m1" />
+                            <p className="col m10 center">
+                              {article.description}
+                            </p>
+                          </div>
+                        )}
                       </div>
                     </li>
                   ))}
