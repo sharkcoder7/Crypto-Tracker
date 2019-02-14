@@ -106,25 +106,6 @@ export default class App extends Component {
                 CryptoTracker
               </a>
               <ul id="nav-mobile" className="right hide-on-med-and-down">
-                <li
-                  className={window.location.pathname === "/" ? "active" : ""}
-                >
-                </li>
-                <li
-                  className={
-                    window.location.pathname === "/dashboard" ? "active" : ""
-                  }
-                >
-                  {this.state.authed ? (
-                    <span>
-                      <Link to="/dashboard" className="nav-link">
-                        Dashboard
-                      </Link>
-                    </span>
-                  ) : (
-                    <span />
-                  )}
-                </li>
                 <li>
                   {this.state.authed ? (
                     <button

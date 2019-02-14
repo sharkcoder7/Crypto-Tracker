@@ -41,9 +41,9 @@ export default class Dashboard extends Component {
   };
 
   getMarket = name => {
-    console.log(name)
-    this.setState({market: name})
-  }
+    console.log(name);
+    this.setState({ market: name });
+  };
 
   render() {
     return (
@@ -74,29 +74,33 @@ export default class Dashboard extends Component {
             Submit
           </a>
         </div>
-        <div className="container">
-          Watches
-          <div className="row">
-            <div className="watched">
-              {this.state.watched.map(watched => (
-                <div key={watched._id} className="row">
-                  <div className="watched__name col m8">
-                    {watched.coinName} <span>${watched.coinPrice}</span>
-                  </div>
-                  <div className="col m4">
-                    <a
-                      className="wave-effect wave-light btn right"
-                      onClick={() => this.deleteWatch(watched._id)}
-                    >
-                      Delete
-                    </a>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-     </div>
+          <ul className="collection with-header">
+            <h4 className="collection-header">Watches</h4>
+                {this.state.watched.map(watched => (
+                  <li key={watched._id} className="row">
+                    <div className="watched__name col m4 center">
+                      {watched.coinName}
+                    </div>
+                    <div className="watched__name col m4">
+                      ${watched.coinPrice}
+                    </div>
+                    <div className="col m4">
+                      <a
+                        className="wave-effect wave-light btn right"
+                        onClick={() => this.deleteWatch(watched._id)}
+                      >
+                        Delete
+                      </a>
+                    </div>
+                   
+                  </li>
+                  
+                ))}
+              
+            
+          </ul>
+        
+      </div>
     );
   }
 }
