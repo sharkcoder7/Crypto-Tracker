@@ -1,0 +1,30 @@
+nav.navbar.navbar-default {
+    margin-bottom: 0;
+  }
+
+.nav-link{
+  color: black;
+  font-size: .9vw;
+  font-style: bold;
+}
+
+.nav-link{
+  margin-right: 20px;
+  color: black;
+  font-size: .9vw;
+}
+
+
+#Email-Place{
+  width: 500px;
+}
+
+#Pass-Place{
+  width: 500px;
+}
+
+#Email-Form{
+  left: 70%;
+  margin-top: 10%;
+  margin-bottom: 30%;
+}
