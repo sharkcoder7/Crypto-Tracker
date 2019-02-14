@@ -62,7 +62,7 @@ export default class Dashboard extends Component {
             name="cPrice"
           />
           <a
-            className="wave-effect wave-light btn"
+            className="wave-effect wave-light btn black"
             onClick={() =>
               this.saveCrypto(
                 this.state.cName,
@@ -86,7 +86,7 @@ export default class Dashboard extends Component {
                     </div>
                     <div className="col m4">
                       <a
-                        className="wave-effect wave-light btn right"
+                        className="wave-effect wave-light btn right pink"
                         onClick={() => this.deleteWatch(watched._id)}
                       >
                         Delete

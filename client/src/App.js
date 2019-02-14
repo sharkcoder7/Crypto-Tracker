@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Route, BrowserRouter, Link, Redirect, Switch } from "react-router-dom";
+import { RingLoader } from 'react-spinners';
 import Login from "../src/components/Login/Login";
 import Register from "../src/components/Login/Register";
 import Dashboard from "../src/components/Login/protected/Dashboard";
@@ -112,37 +113,42 @@ export default class App extends Component {
 
   render() {
     return this.state.loading === true ? (
-      <h1>Loading</h1>
+      <div className='sweet-loading'>
+      <RingLoader
+        color={'#123abc'} 
+        loading={this.state.loading} 
+      />
+    </div>
     ) : (
       <BrowserRouter>
         <div>
           <nav>
-            <div className="nav-wrapper teal">
+            <div className="nav-wrapper black col s12">
               <a href="" className="brand-logo">
                 CryptoTracker
               </a>
-              <ul id="nav-mobile" className="right hide-on-med-and-down">
+              <ul id="nav-mobile" className="right">
                 <li>
                   {this.state.authed ? (
-                    <button
+                    <a
                       style={{ border: "none", background: "transparent" }}
                       onClick={() => {
                         logout();
                       }}
-                      className="nav-link glyphicon glyphicon-log-out"
+                      className="wave-effect wave-light btn grey"
                     >
                       Logout
-                    </button>
+                    </a>
                   ) : (
                     <ul className="nav navbar-nav">
                       <li>
-                        <Link to="/login" className="nav-link">
+                        <Link to="/login" className="wave-effect wave-light btn grey">
                           {" "}
                           Login
                         </Link>
                       </li>
                       <li>
-                        <Link to="/register" className="nav-link">
+                        <Link to="/register" className="wave-effect wave-light btn grey">
                           {" "}
                           Register
                         </Link>
@@ -233,23 +239,25 @@ export default class App extends Component {
                 <ul className="collection with-header">
                   <div className="collection-header">
                     <div className="row">
-                      <div className="col m3">
+                      <div className="col m12">
                         <h4>News</h4>
                       </div>
-                      <div className="col m6">
+                      <div className="row">
+                      <div className="col m8">
                         <input
                           value={this.state.headline}
                           onChange={this.handleInputChange}
                           name="headline"
                         />
                       </div>
-                      <div className="col m3">
+                      <div className="col m4">
                         <a
                           onClick={() => this.callNews()}
-                          className="wave-effect wave-light btn"
+                          className="wave-effect wave-light btn black"
                         >
                           search
                         </a>
+                      </div>
                       </div>
                     </div>
                   </div>
@@ -287,7 +295,7 @@ export default class App extends Component {
               </div>
             </div>
           </div>
-          <footer className="page-footer teal">
+          <footer className="page-footer black">
             <div className="container">
               <div className="row">
                 <div className="col l6 s12">
@@ -297,26 +305,26 @@ export default class App extends Component {
                   </p>
                 </div>
                 <div className="col l4 offset-l2 s12">
-                  <h5 className="white-text">Our App</h5>
+                  <h5 className="white-text">Team</h5>
                   <ul>
                     <li>
                       <a className="grey-text text-lighten-3" href="#!">
-                        About Us
+                        Adam Kojak
                       </a>
                     </li>
                     <li>
                       <a className="grey-text text-lighten-3" href="#!">
-                        Privacy policy
+                        Mohammed Wardeh
                       </a>
                     </li>
                     <li>
                       <a className="grey-text text-lighten-3" href="#!">
-                        Terms Conditions
+                        Raymundo Little Bitch
                       </a>
                     </li>
                     <li>
                       <a className="grey-text text-lighten-3" href="#!">
-                        Website disclaimer
+                        Scot Renz
                       </a>
                     </li>
                   </ul>
@@ -324,11 +332,8 @@ export default class App extends Component {
               </div>
             </div>
             <div className="footer-copyright">
-              <div className="container">
+              <div className="container center">
                 © 2018 Copyright CryptoTracker
-                <a className="grey-text text-lighten-4 right" href="#!">
-                  More Links
-                </a>
               </div>
             </div>
           </footer>
