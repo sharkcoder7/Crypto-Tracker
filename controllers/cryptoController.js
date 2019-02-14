@@ -33,11 +33,72 @@ router.get("/api/saveCoins/:uid", function(req, res) {
 
 router.delete("/api/saveCoins/delete/:uid", cryptoFunctions.delete);
 
-router.get("/api/news", function(req, res) {
-  axios.get(`https://newsapi.org/v2/everything?q=cryptocurrency&sortBy=publishedAt&apiKey=5ae60d2d5dcf4b75a51d27c9f94f5c35`).then(data => {
+router.get("/api/news/:headline", function(req, res) {
+  axios.get(`https://newsapi.org/v2/everything?q=${req.params.headline}&sortBy=publishedAt&apiKey=5ae60d2d5dcf4b75a51d27c9f94f5c35`).then(data => {
     res.json(data.data.articles)
   })
 });
+
+// retriveCoins();
+function retriveCoins() {
+    var coinsToBeCompared = [];
+    var scrapedCoinInfo = [];
+    var results = [];
+    var names = [];
+    var prices = [];
+    var percentages = [];
+    var rating = [];
+    axios.get("https://coinmarketcap.com/").then(function (response) {
+
+        var $ = cheerio.load(response.data);
+
+        $("a.currency-name-container").each(function (i, element) {
+            var name = $(element).text();
+
+            names.push(name)
+        });
+        $("a.price").each(function (i, element) {
+            var price = $(element).text();
+
+            prices.push(price)
+        });
+        for (var i = 0; i < names.length; i++) {
+            results.push({
+                name: names[i],
+                price: prices[i],
+            })
+        }
+        db.User.find({})
+            .then(function (allusers) {
+                allusers.forEach(value => {
+                    value.coins.forEach(coins => {
+                        coinsToBeCompared.push({
+                            firstName: value.firstname,
+                            userEmail: value.email,
+                            coinName: coins.coinName,
+                            coinPrice: "$" + coins.coinPrice
+                        })
+                    })
+                });
+                coinsToBeCompared.forEach(userCoins => {
+                    function find(coin) {
+                        if (coin.name == userCoins.coinName && coin.price == userCoins.coinPrice) {
+                            console.log("email to");
+                            const msg = {
+                                to: userCoins.userEmail,
+                                from: 'CryptoAlert@donotreply.com',
+                                subject: 'Your coin has reached the limit',
+                                html: '<strong>Hello ' + userCoins.firstName + ", " + userCoins.coinName + " has reached " + userCoins.coinPrice + '!</strong>',
+                            };
+                            sgMail.send(msg);
+                        }
+                    }
+                    // console.log(results);
+                    results.find(find);
+                })
+            })
+    })
+}
 
 router.get("/api/coins", function(req, res) {
   var results = [];

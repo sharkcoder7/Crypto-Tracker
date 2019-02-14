@@ -7,6 +7,7 @@ import { logout } from "../src/components/helpers/auth";
 import { firebaseAuth } from "../src/components/config/constants";
 import "../src/components/Login/Login.css";
 import API from "./utils/API";
+import "./style.css";
 function PrivateRoute({ component: Component, authed, ...rest }) {
   return (
     <Route
@@ -42,8 +43,10 @@ export default class App extends Component {
     authed: false,
     loading: true,
     loadCryptos: [],
-    news: []
+    news: [],
+    location: window.location.href
   };
+
   componentDidMount() {
     this.removeListener = firebaseAuth().onAuthStateChanged(user => {
       if (user) {
@@ -59,17 +62,17 @@ export default class App extends Component {
       }
     });
     API.loadCryptos().then(res => this.setState({ loadCryptos: res.data }));
-    API.getNews().then(res => this.setState({ news: res.data }));
+    API.getNews("Cryptocurrencies").then(res => this.setState({ news: res.data }));
   }
   componentWillUnmount() {
     this.removeListener();
   }
-  callChart = coinName => {
+  callChart = (coinName, market) => {
     console.log("coinName");
     new window.TradingView.widget({
       width: 980,
       height: 610,
-      symbol: "Bitstamp:" + coinName + "usd",
+      symbol: market + ":" + coinName + "usd",
       interval: "D",
       timezone: "Etc/UTC",
       theme: "Light",
@@ -81,12 +84,13 @@ export default class App extends Component {
       hideideas: true
     });
     var a = document.createElement("a");
-    var linkText = document.createTextNode("my title text");
+    var linkText = document.createTextNode("Dashboard");
     a.appendChild(linkText);
     a.title = "Go Back";
     a.href = "/";
     document.body.appendChild(a);
   };
+
   render() {
     return this.state.loading === true ? (
       <h1>Loading</h1>
@@ -166,6 +170,7 @@ export default class App extends Component {
                     <th>Name</th>
                     <th>Price</th>
                     <th>Change (24h)</th>
+                    <th>Choose market to view chart</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -176,6 +181,36 @@ export default class App extends Component {
                       </td>
                       <td>{coin.price}</td>
                       <td>{coin.percent}</td>
+                      <td>
+                        <div className="market chip">
+                          <a className="market"
+                            onClick={() => this.callChart(coin.abv, "Bitstamp")}
+                          >
+                            Bitstamp
+                          </a>
+                        </div>
+                        <div className="chip">
+                          <a className="market"
+                            onClick={() => this.callChart(coin.abv, "Binance")}
+                          >
+                            Binance
+                          </a>
+                        </div>
+                        <div className="chip">
+                          <a  className="market"
+                            onClick={() => this.callChart(coin.abv, "Bittrex")}
+                          >
+                            Bittrex
+                          </a>
+                        </div>
+                        <div className="chip">
+                          <a  className="market"
+                            onClick={() => this.callChart(coin.abv, "Bitfinex")}
+                          >
+                            Bitfinex
+                          </a>
+                        </div>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -200,9 +235,19 @@ export default class App extends Component {
                 />
               </Switch>
               <div>
-                {/* news */}
-                {this.state.news.map(articles => (
-                  <div>{console.log(articles)}</div>
+                {this.state.news.map(article => (
+                  <ul key={article.url} className="collection with-header">
+                    <br />
+                    {/* <div>{console.log(article)}</div> */}
+                    <li className="collection-header">
+                      <h4>{article.title}</h4>
+                    </li>
+                    <li className="collection-item">
+                      <a href={article.url} target="blank">
+                        {article.url}
+                      </a>
+                    </li>
+                  </ul>
                 ))}
               </div>
             </div>
