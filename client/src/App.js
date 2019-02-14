@@ -66,6 +66,9 @@ export default class App extends Component {
   }
   componentWillUnmount() {
     this.removeListener();
+    if (this.state.authed) {
+      window.location.href = "/dashboard";
+    }
   }
   callChart = (coinName, market) => {
     console.log("coinName");
@@ -106,15 +109,6 @@ export default class App extends Component {
                 <li
                   className={window.location.pathname === "/" ? "active" : ""}
                 >
-                  {/* {this.state.authed ? (
-                    <span>
-                      <Link to="/" className="nav-link">
-                        Home
-                      </Link>
-                    </span>
-                  ) : (
-                    <span />
-                  )} */}
                 </li>
                 <li
                   className={
