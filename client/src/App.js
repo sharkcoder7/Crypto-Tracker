@@ -106,7 +106,7 @@ export default class App extends Component {
                 <li
                   className={window.location.pathname === "/" ? "active" : ""}
                 >
-                  {this.state.authed ? (
+                  {/* {this.state.authed ? (
                     <span>
                       <Link to="/" className="nav-link">
                         Home
@@ -114,7 +114,7 @@ export default class App extends Component {
                     </span>
                   ) : (
                     <span />
-                  )}
+                  )} */}
                 </li>
                 <li
                   className={
