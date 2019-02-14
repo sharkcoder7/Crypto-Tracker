@@ -68,7 +68,7 @@ router.get("/api/coins", function(req, res) {
 
       abv.push(abvName);
     });
-    $("td.percent-24h").each(function(i, element) {
+    $("td.percent-change").each(function(i, element) {
       var percent = $(element).text();
 
       percentages.push(percent);

@@ -42,10 +42,10 @@ export default class Dashboard extends Component {
   };
 
   render() {
-    const uid = firebase.auth().currentUser.uid;
+    //const uid = firebase.auth().currentUser.uid;
 
     return (
-      <div className="col m3">
+      <div>
         <label>Crypto Name</label>
         <input
           value={this.state.cName}
@@ -61,7 +61,7 @@ export default class Dashboard extends Component {
         <a
           className="wave-effect wave-light btn"
           onClick={() =>
-            this.saveCrypto(this.state.cName, this.state.cPrice, uid)
+            this.saveCrypto(this.state.cName, this.state.cPrice, this.state.uid)
           }
         >
           Submit

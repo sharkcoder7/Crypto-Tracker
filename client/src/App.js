@@ -28,7 +28,11 @@ function PublicRoute({ component: Component, authed, ...rest }) {
     <Route
       {...rest}
       render={props =>
-        authed === false ? <Component {...props} /> : <Redirect to="/" />
+        authed === false ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to="/dashboard" />
+        )
       }
     />
   );
@@ -153,47 +157,50 @@ export default class App extends Component {
             </div>
           </nav>
           <div className="row">
-            <Switch>
-              <PublicRoute
-                authed={this.state.authed}
-                path="/login"
-                component={Login}
-              />
-              <PublicRoute
-                authed={this.state.authed}
-                path="/register"
-                component={Register}
-              />
-              <PrivateRoute
-                authed={this.state.authed}
-                path="/dashboard"
-                component={Dashboard}
-              />
-            </Switch>
-          </div>
-          <div className="container-fluid">
-            <table className="striped">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Price</th>
-                  <th>Change (24h)</th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.state.loadCryptos.map(coin => (
-                  // <div className="row" key={coin.name}>
+            <div className="container-fluid col m8">
+              <table className="striped">
+                <thead>
                   <tr>
-                    <td onClick={() => this.callChart(coin.abv)}>
-                      {coin.name}
-                    </td>
-                    <td>{coin.price}</td>
-                    <td>{coin.percent}</td>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Change (24h)</th>
                   </tr>
-                  // </div>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {this.state.loadCryptos.map(coin => (
+                    // <div className="row" key={coin.name}>
+                    <tr>
+                      <td onClick={() => this.callChart(coin.abv)}>
+                        {coin.name}
+                      </td>
+                      <td>{coin.price}</td>
+                      <td>{coin.percent}</td>
+                    </tr>
+                    // </div>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="container-fluid col m4">
+              <Switch>
+                <PublicRoute
+                  authed={this.state.authed}
+                  path="/login"
+                  component={Login}
+                />
+                <PublicRoute
+                  authed={this.state.authed}
+                  path="/register"
+                  component={Register}
+                />
+                <PrivateRoute
+                  authed={this.state.authed}
+                  path="/dashboard"
+                  component={Dashboard}
+                />
+              </Switch>
+              <div>NEWSFEED</div>
+            </div>
           </div>
           <footer className="page-footer teal">
             <div className="container">
